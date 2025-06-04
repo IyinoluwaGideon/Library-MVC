@@ -21,6 +21,6 @@ $router->get("/register", "viewRegistrationPage");
 $router->post("/register", "handleRegistration");
 $router->post("/login", "handleLogin");
 $router->get("/dashboard", "viewDashboard");
-
+$router->get("/logout", "handleLogout");
 
 $router->handleRequest();

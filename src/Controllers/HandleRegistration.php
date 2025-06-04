@@ -32,6 +32,7 @@ class HandleRegistration
                 throw new Exception('This email already exist');
             }
             $this->user->createUser($post);
+            $_SESSION['username'] = $post['username'];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }

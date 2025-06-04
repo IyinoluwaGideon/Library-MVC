@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Core;
 
 use App\Controllers\HandleLogin;
+use App\Controllers\HandleLogout;
 use App\Controllers\HandleRegistration;
 use App\Controllers\ViewDashboard;
 use App\Controllers\ViewLoginPage;
@@ -18,6 +19,7 @@ class Router {
     private HandleLogin $handleLogin;
     private ViewLoginPage $viewLoginPage;
     private ViewDashboard $viewDashboard;
+    private HandleLogout $handleLogout;
     
 
     public function __construct(Database $database, private User $user ) {
@@ -26,6 +28,7 @@ class Router {
         $this->handleRegistration = new HandleRegistration($database->getPDO(), $this, $this->user);
         $this->handleLogin = new HandleLogin($database->getPDO(), $this,  $this->user);
         $this->viewDashboard = new ViewDashboard();
+        $this->handleLogout = new HandleLogout($database->getPDO(), $this);
 
 
     }

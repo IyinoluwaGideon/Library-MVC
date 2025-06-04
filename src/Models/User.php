@@ -36,9 +36,9 @@ class User
     }
 
 
-    public function userLogin()
+    public function checkUserByUsername()
     {
-        $sql = 'SELECT password FROM users
+        $sql = 'SELECT * FROM users
                 WHERE username = :username';
 
         $statement = $this->pdo->prepare($sql);
@@ -48,14 +48,11 @@ class User
         ]);
 
         $user = $statement->fetch(PDO::FETCH_ASSOC);
-        if($user === false)
-        {
-            throw new Exception("Username does not exist");
-        }
-        if (password_verify($_POST['password'], $user["password"]) === false) 
-        {
-             throw new Exception('Password do not match'); 
-        }
+        
+        return $user;
+       
+      
+       
          
         
     }

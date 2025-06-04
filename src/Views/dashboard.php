@@ -78,20 +78,10 @@
 <body>
 <main>
 
-<p><strong>Welcome, <?= "Ade" ?></strong></p>
+<p><strong>Welcome, <?= $_SESSION["username"] ?></strong></p>
 
-<?php if (true): ?>
-    <p style="display: inline;"><a href="edit_users.php" class="round-button">Edit Users</a></p>
-    <p style="display: inline;"><a href="add-book.php" class="round-button">Add Book</a></p>
+<p style="display: inline;"><a href="/logout" class="round-button">Logout</a></p>
 
-<?php else: ?>
-    <p style="display: inline;"><a href="edit_profile.php" class="round-button">Edit Profile</a></p>
-
-<?php endif ?>I9KK9I
-
-<p style="display: inline;"><a href="logout.php" class="round-button">Logout</a></p>
-
-<?php require __DIR__ . '/view_library.php' ?>
 
 </main>
 </body>
