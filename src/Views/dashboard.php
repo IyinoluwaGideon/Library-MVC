@@ -87,7 +87,7 @@
 <?php else: ?>
     <p style="display: inline;"><a href="edit_profile.php" class="round-button">Edit Profile</a></p>
 
-<?php endif ?>
+<?php endif ?>I9KK9I
 
 <p style="display: inline;"><a href="logout.php" class="round-button">Logout</a></p>
 
