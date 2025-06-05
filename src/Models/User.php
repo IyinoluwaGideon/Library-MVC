@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Exception;
 use PDO;
 
 class User
@@ -13,7 +12,6 @@ class User
 
     public function checkUserByEmail($post)
     {
-        $this->createUserTable();
         $stmt = $this->pdo->prepare("SELECT EXISTS (SELECT 1 FROM users WHERE email = :email) AS email_exists");
         $stmt->execute(['email' => $post['email']]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -49,12 +47,7 @@ class User
 
         $user = $statement->fetch(PDO::FETCH_ASSOC);
         
-        return $user;
-       
-      
-       
-         
-        
+        return $user;   
     }
 
 

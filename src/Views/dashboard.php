@@ -81,6 +81,8 @@
 <p><strong>Welcome, <?= $_SESSION["username"] ?></strong></p>
 
 <p style="display: inline;"><a href="/logout" class="round-button">Logout</a></p>
+<p style="display: inline;"><a href="/addbook" class="round-button">Addbook</a></p>
+
 
 
 </main>

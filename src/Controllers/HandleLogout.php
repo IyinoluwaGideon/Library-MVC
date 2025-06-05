@@ -17,7 +17,9 @@ class HandleLogout
 
     public function action(){
 
-        $_SESSION['username'] = '';
+        unset($_SESSION['username']);
+
+        // isset($_SESSION['username']);
 
         $this->router->redirect('/login');
 
