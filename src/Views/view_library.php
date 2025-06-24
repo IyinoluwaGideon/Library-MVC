@@ -11,7 +11,7 @@
     </thead>
 
     <tbody>
-        <?php if (!empty($books)): ?>
+        <?php if (!empty($books)):  ?>
             <?php foreach ($books as $number => $book) : ?>
                 <?php $book_id = $book->get_book_id() ?>
                 <tr>

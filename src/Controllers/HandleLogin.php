@@ -8,12 +8,10 @@ use App\Models\User;
 use Assert\Assertion;
 use Core\Router;
 use Exception;
-use PDO;
 
 class HandleLogin
 {
     public function __construct(
-        private PDO $pdo,
         private Router $router,
         private User $user
 
@@ -31,7 +29,8 @@ class HandleLogin
             if (password_verify($_POST['password'], $existingUser["password"]) === false) {
                 throw new Exception('Password do not match');
             }
-             $_SESSION['username'] = $existingUser["username"];
+            $_SESSION['user_id'] = $existingUser["id"];
+            $_SESSION['username'] = $existingUser["username"];
              
 
         } catch (Exception $e) {

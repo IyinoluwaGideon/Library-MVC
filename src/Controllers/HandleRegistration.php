@@ -31,12 +31,12 @@ class HandleRegistration
             if ($existingUser['email_exists']) {
                 throw new Exception('This email already exist');
             }
-            $this->user->createUser($post);
+            $id = $this->user->createUser($post);
+            $_SESSION['user_id'] = $id;
             $_SESSION['username'] = $post['username'];
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
-        }
-        $this->router->redirect('/dashboard');
+        }        $this->router->redirect('/dashboard');
     }
 
 }

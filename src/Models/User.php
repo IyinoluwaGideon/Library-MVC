@@ -19,7 +19,7 @@ class User
     }
 
 
-    public function createUser($post)
+    public function createUser($post): int
     {
         $this->createUserTable();
         $sql = 'INSERT INTO users(username, email, password, role) VALUES(:username, :email, :password, :role)';
@@ -31,6 +31,8 @@ class User
             ':password' => password_hash($post['password'], PASSWORD_BCRYPT),
             ':role' => 'user'
         ]);
+
+        return $this->pdo->lastInsertId();
     }
 
 
@@ -46,8 +48,8 @@ class User
         ]);
 
         $user = $statement->fetch(PDO::FETCH_ASSOC);
-        
-        return $user;   
+
+        return $user;
     }
 
 
@@ -63,4 +65,59 @@ class User
 )";
         $this->pdo->exec($query);
     }
+
+    public function userProfile()
+    {
+
+        $sql = 'SELECT * FROM users
+                WHERE id = :id';
+
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([
+            ':id' => $_SESSION["user_id"]
+        ]);
+
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+        return $user;
+    }
+
+    public function editProfile($post)
+    {
+        $sql = 'UPDATE users
+                SET username = :username
+                WHERE id = :user_id';
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([
+            ':username' => $post['username'],
+            ':user_id' => $_SESSION['user_id']
+        ]);
+    }
+
+    public function deleteUser($user_id)
+    {
+        $sql = 'DELETE FROM users
+                WHERE id = :user_id';
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+
+
+        return $statement->execute();
+    }
+
+     public function fetchUserRecord()
+    {
+
+        $sql = 'SELECT * FROM users';
+                 
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute();
+
+        $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $users;
+    }
+
 }

@@ -9,13 +9,11 @@ use Assert\Assertion;
 use Core\Router;
 use DateTime;
 use Exception;
-use PDO;
 
 class HandleAddbook
 {
 
     public function __construct(
-        private PDO $pdo,
         private Router $router,
         private Book $book
     ) {}
@@ -50,6 +48,6 @@ class HandleAddbook
             $this->router->redirect('/addbook');
         }
 
-        $this->router->redirect('/dashboard');
+        $this->router->redirect('/booklist');
     }
 }
