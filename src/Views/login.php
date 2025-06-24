@@ -13,6 +13,10 @@
         <div class="alert alert-error"><?php echo $_SESSION['error'] ?></div>
         <?php unset($_SESSION['error']) ?>
     <?php endif ?>
+<?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success"><?php echo $_SESSION['success'] ?></div>
+        <?php unset($_SESSION['success']) ?>
+    <?php endif ?>
 
     <form action="/login" method="post">
         <h1>Login</h1>

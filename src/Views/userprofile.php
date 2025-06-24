@@ -132,7 +132,7 @@
         <p style="display: inline;"><a href="/editprofile" class="round-button">Edit</a></p>
         <p style="display: inline;"><a href="/uploadimage" class="round-button">Upload Image</a></p>
         <p style="display: inline;"><a href="/dashboard" class="round-button">Back</a></p>
-        <p style="display: inline;"><a href="/deleteuser" class="round-button">Delete User</a></p>
+        <p style="display: inline;"><a href="/deleteuser?user_id=<?= $_SESSION["user_id"] ?>&book_id=<? $book['book_id'] ?>" class="round-button">Delete User</a></p>
 
 
     </main>

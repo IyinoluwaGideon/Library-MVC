@@ -82,10 +82,10 @@ class Router
         $this->handleEditProfile = new HandleEditProfile($this->user, $this);
         $this->viewUploadImage = new ViewUploadImage();
         $this->handleUploadImage = new HandleUploadImage($this->user, $this);
-        $this->handleDeleteUser = new HandleDeleteUser($this->user, $this);
+        $this->handleDeleteUser = new HandleDeleteUser($this->user, $this, $this->borrow);
         $this->handleDeleteUserBorrow = new HandleDeleteUserBorrow($this->borrow, $this);
         $this->viewUserRecord = new ViewUserRecord($this, $this->user);
-        $this->handleDeleteBook = new HandleDeleteBook($this->book, $this);
+        $this->handleDeleteBook = new HandleDeleteBook($this->book, $this, $this->borrow);
         $this->handleDeleteBookBorrow = new HandleDeleteBookBorrow($this->borrow, $this);
         }
 

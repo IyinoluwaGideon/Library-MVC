@@ -17,7 +17,7 @@ class Borrow
     public function getBookEntry()
     {
         $sql = 'SELECT * FROM  borrow
-                WHERE book_id = :book_id AND user_id = :user_id
+                WHERE book_id = :book_id OR user_id = :user_id
                 ORDER BY borrow_id DESC';
 
 
@@ -124,14 +124,14 @@ class Borrow
         return $statement->execute();
     }
 
-    public function deleteBookBorrowDetails($book_id)
+    public function deleteBookBorrowDetails($book_id, $user_id)
     {
         $sql = 'DELETE FROM borrow
-                WHERE book_id = :book_id ';
+                WHERE book_id = :book_id AND user_id = :user_id';
 
         $statement = $this->pdo->prepare($sql);
         $statement->bindParam(':book_id', $book_id, PDO::PARAM_INT);
-        // $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
 
         return $statement->execute();
