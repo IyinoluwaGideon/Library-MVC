@@ -10,17 +10,20 @@ use App\Controllers\HandleDeleteBook;
 use App\Controllers\HandleDeleteBookBorrow;
 use App\Controllers\HandleDeleteUser;
 use App\Controllers\HandleDeleteUserBorrow;
+use App\Controllers\HandleEditBook;
 use App\Controllers\HandleEditProfile;
 use App\Controllers\HandleLogin;
 use App\Controllers\HandleLogout;
 use App\Controllers\HandleRegistration;
 use App\Controllers\HandleReturn;
+use App\Controllers\HandleSearchBooks;
 use App\Controllers\HandleUploadImage;
 use App\Controllers\HandleUserProfile;
 use App\Controllers\ViewAddbook;
 use App\Controllers\ViewBookdetail;
 use App\Controllers\ViewBookList;
 use App\Controllers\ViewDashboard;
+use App\Controllers\ViewEditBook;
 use App\Controllers\ViewEditProfile;
 use App\Controllers\ViewLibrary;
 use App\Controllers\ViewLoginPage;
@@ -56,11 +59,14 @@ class Router
     private HandleUploadImage $handleUploadImage;
     private ViewUploadImage $viewUploadImage;
     private HandleDeleteUser $handleDeleteUser;
-    private HandleDeleteUserBorrow $handleDeleteUserBorrow;
+    //private HandleDeleteUserBorrow $handleDeleteUserBorrow;
     private ViewUserRecord $viewUserRecord;
     private HandleDeleteBook $handleDeleteBook;
     private HandleDeleteBookBorrow $handleDeleteBookBorrow;
-
+    private HandleEditBook $handleEditBook;
+    private ViewEditBook $viewEditBook;
+    private HandleSearchBooks $handleSearchBooks;
+ 
     public function __construct(Database $database, private User $user, private Book $book, private Borrow $borrow)
     {
         $this->viewRegistrationPage = new ViewRegistrationPage();
@@ -73,7 +79,7 @@ class Router
         $this->viewAddbook = new ViewAddbook($this);
         $this->viewBookdetail = new ViewBookdetail($this->book, $this);
         $this->viewBooklist = new ViewBooklist($this, $this->book);
-        $this->handleBorrowBook = new HandleBorrowBook($this->borrow, $this);
+        $this->handleBorrowBook = new HandleBorrowBook($this->borrow, $this, $this->book);
         $this->viewLibrary = new ViewLibrary($this, $this->book);
         $this->handleReturn = new HandleReturn($this->borrow, $this);
         $this->handleUserProfile = new HandleUserProfile($this->user);
@@ -83,10 +89,13 @@ class Router
         $this->viewUploadImage = new ViewUploadImage();
         $this->handleUploadImage = new HandleUploadImage($this->user, $this);
         $this->handleDeleteUser = new HandleDeleteUser($this->user, $this, $this->borrow);
-        $this->handleDeleteUserBorrow = new HandleDeleteUserBorrow($this->borrow, $this);
+        //$this->handleDeleteUserBorrow = new HandleDeleteUserBorrow($this->borrow, $this);
         $this->viewUserRecord = new ViewUserRecord($this, $this->user);
         $this->handleDeleteBook = new HandleDeleteBook($this->book, $this, $this->borrow);
         $this->handleDeleteBookBorrow = new HandleDeleteBookBorrow($this->borrow, $this);
+        $this->handleEditBook = new HandleEditBook($this->book, $this);
+        $this->viewEditBook = new ViewEditBook();
+        $this->handleSearchBooks = new HandleSearchBooks($this->book, $this);
         }
 
 

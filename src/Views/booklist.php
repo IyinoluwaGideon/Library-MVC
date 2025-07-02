@@ -133,6 +133,8 @@
             <?php unset($_SESSION['error']) ?>
         <?php endif ?>
 
+
+
         <div class="container">
             <div>
                 <p>
@@ -144,8 +146,25 @@
 
                 <p style="display: inline;"><a href="/addbook" class="round-button">Addbook</a></p>
                 <p style="display: inline;"><a href="/dashboard" class="round-button">Back</a></p>
+
             </div>
         </div>
+
+      <form method="GET" action="/searchbooks" style="display: flex; gap: 8px; margin-bottom: 20px;">
+    <input
+        type="text"
+        name="search"
+        placeholder="Search by Title or Author"
+        value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
+        style="padding: 8px; border-radius: 15px; border: 1px solid #ccc; width: 300px;">
+
+    <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 15px; cursor: pointer;">
+        🔍 Search
+    </button>
+</form>
+
+
+
 
         <table>
             <tr>
@@ -154,6 +173,7 @@
                 <th>Author</th>
                 <th>Book Details</th>
                 <th>Borrow Book</th>
+                <th>Edit Book</th>
                 <th>Delete Book</th>
                 <th>Cancle Borrow</th>
             </tr>
@@ -169,12 +189,14 @@
                         <p style="display: inline;"><a href="/borrow?user_id=<?= $_SESSION["user_id"] ?>&book_id=<?= $book['book_id'] ?>" class="round-button">Borrow</a></p>
                     </td>
                     <td>
+                        <p style="display: inline;"><a href="/editbook?book_id=<?= $book['book_id'] ?>&author=<?= $book['author'] ?>&genre=<?= $book['genre'] ?>&copies=<?= $book['copies'] ?>&description=<?= $book['description'] ?>" class="round-button">Edit Book</a></p>
+                    </td>
+                    <td>
                         <p style="display: inline;"><a href="/deleteBookBorrowDetails?book_id=<?= $book['book_id'] ?>&user_id=<?= $_SESSION["user_id"] ?>" class="round-button">Cancle Borrow</a></p>
                     </td>
                     <td>
-                        <p style="display: inline;"><a href="/deletebook?book_id=<?= $book['book_id'] ?>" class="round-button">Delete Book</a></p>
+                        <p style="display: inline;"><a href="/deletebook?book_id=<?= $book['book_id'] ?>&user_id=<?= $_SESSION["user_id"] ?>" class="round-button">Delete Book</a></p>
                     </td>
-
 
                 </tr>
             <?php endforeach ?>

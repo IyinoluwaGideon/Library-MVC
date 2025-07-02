@@ -167,7 +167,7 @@
                         </td>
                         <td>
                             <?php if ($book['return_date'] === null) : ?>
-                                <p style="display: inline;"><a href="/return?user_id=<?= $_SESSION["user_id"] ?>&book_id=<?= $book['book_id'] ?>" class="round-button">Return</a></p>
+                                <p style="display: inline;"><a href="/return?book_id=<?= $book['book_id'] ?>&user_id=<?= $_SESSION["user_id"] ?>" class="round-button">Return</a></p>
                             <?php else : ?>
                                 <p style="display: inline;"class="buttons">Returned</p>
                             <?php endif ?>

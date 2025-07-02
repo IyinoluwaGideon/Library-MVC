@@ -20,10 +20,12 @@ class HandleDeleteBook
     {
 
         $bookEntry = $this->borrow->getBookEntry();
-
+        
+        $this->book->deleteInventory();
+        $book_id = $_GET['book_id'];
         if ($bookEntry === false) {
             //There is nothing to delete.
-            $this->book->deleteBook();
+            $this->book->deleteBook($book_id);
             $_SESSION["success"] = "Book deleted successfully";
         } else {
             $_SESSION['error'] = "This Book is still has a borrow history, it can't be deleted ";

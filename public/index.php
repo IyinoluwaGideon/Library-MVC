@@ -39,10 +39,14 @@ $router->get("/editprofile", "viewEditProfile");
 $router->get("/uploadimage", "viewUploadImage");
 $router->post("/uploadimage", "handleUploadImage");
 $router->get("/deleteuser", 'handleDeleteUser');
-$router->get("/deleteuseruorrowdetails", 'handleDeleteUserBorrow');
+//$router->get("/deleteuseruorrowdetails", 'handleDeleteUserBorrow');
 $router->get("/userrecord", "viewUserRecord");
 $router->get("/deletebook", "handleDeleteBook");
 $router->get("/deleteBookBorrowDetails", 'handleDeleteBookBorrow');
+$router->get("/editbook", "viewEditBook");
+$router->post("/editbook", "handleEditBook");
+$router->get("/searchbooks", "handleSearchBooks");
+ 
 
 
 

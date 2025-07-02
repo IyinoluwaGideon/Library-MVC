@@ -19,12 +19,11 @@ class HandleDeleteUser
     public function action()
     {
         $user_id = $_SESSION['user_id'];
-        $book_id = $_GET['book_id'];
-        $borrowbookEntry = $this->borrow->getBookEntry($book_id, $user_id);
-
+        // $book_id = $_GET['book_id'];
+        $borrowbookEntry = $this->borrow->getBookEntryy();
 
         if ($borrowbookEntry ===  false) {
-            $this->user->deleteUser($user_id);
+            $this->user->deleteUser($user_id,);
             $_SESSION["success"] = "User deleted successfully";
         } else {
 

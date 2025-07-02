@@ -19,13 +19,11 @@ class HandleDeleteBookBorrow
         $book_id = $_GET['book_id'];
         $user_id = $_SESSION['user_id'];
         $bookEntry = $this->borrow->getBookEntry();
-        //   var_dump($bookEntry);
-        //     exit;
 
-        if ($bookEntry === null ) {
+
+
+        if ($bookEntry === false) {
             //There is nothing to delete.
-            // var_dump($bookEntry);
-            // exit;
             $_SESSION['error'] = "Book borrow details not found";
         } else {
             if ($bookEntry["return_date"] === null) {
@@ -37,6 +35,6 @@ class HandleDeleteBookBorrow
             }
         }
 
-        $this->router->redirect("/dashboard");
+        $this->router->redirect("/booklist");
     }
 }

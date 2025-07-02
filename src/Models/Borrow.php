@@ -17,6 +17,24 @@ class Borrow
     public function getBookEntry()
     {
         $sql = 'SELECT * FROM  borrow
+                WHERE book_id = :book_id AND user_id = :user_id
+                ORDER BY borrow_id DESC';
+
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([
+            ':book_id' => $_GET['book_id'],
+            ':user_id' => $_GET['user_id']
+        ]);
+
+        $borrowEntry = $statement->fetch(PDO::FETCH_ASSOC);
+        return $borrowEntry;
+    }
+
+
+     public function getBookEntryy()
+    {
+        $sql = 'SELECT * FROM  borrow
                 WHERE book_id = :book_id OR user_id = :user_id
                 ORDER BY borrow_id DESC';
 
