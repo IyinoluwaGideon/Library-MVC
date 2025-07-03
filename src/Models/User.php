@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
+use Exception;
 use PDO;
 
 class User
 {
+    private $ALLOWED_FILES = [
+        'image/png' => 'png',
+        'image/jpeg' => 'jpg'
+    ];
+
     public function __construct(
         private PDO $pdo
+
     ) {}
 
     public function checkUserByEmail($post)
@@ -107,11 +114,11 @@ class User
         return $statement->execute();
     }
 
-     public function fetchUserRecord()
+    public function fetchUserRecord()
     {
 
         $sql = 'SELECT * FROM users';
-                 
+
 
         $statement = $this->pdo->prepare($sql);
         $statement->execute();
@@ -119,5 +126,4 @@ class User
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $users;
     }
-
 }

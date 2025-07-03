@@ -19,34 +19,33 @@ class HandleBorrowBook
 
     public function action()
     {
-       $book_id =  (int) $_GET['book_id'];
-        // $user_id = $_GET['user_id'];
+        $book_id =  (int) $_GET['book_id'];
+        $user_id = (int) $_GET['user_id'];
 
 
         $bookEntry = $this->borrow->getBookEntry();
+        $bookAvailability = $this->book->checkAvailability($book_id);
 
-        if (!$bookEntry) {
-            // the book has not been borrowed
-            $this->borrow->borrow();
-            $_SESSION['success'] = "Book borrowed successfully";
+        if (!$bookAvailability) {
+            $_SESSION['error'] = "This book is empty";
+            $this->router->redirect('/booklist');
         } else {
-            // the book has been borrowed
-
-            if ($bookEntry['return_date'] === null) {
-                // you've already borrowed the book
-                $_SESSION['error'] = "You have borrowed this book.";
+            if (!$bookEntry) {
+                $this->borrow->borrow($user_id, $book_id);
+                $this->book->reduceAvailableCopies($book_id);
+                $_SESSION['success'] = "Book borrowed successfully";
             } else {
-                // you've borrowed it before, retuned it, and can now borrow again
-                if ($this->book->checkAvailability ($book_id) === false) {
-                   $_SESSION['error'] = "This book is empty";
-                }else{
-                     $this->borrow->borrow();
+
+                if ($bookEntry['return_date'] === null) {
+                    $_SESSION['error'] = "You have borrowed this book.";
+                } else {
+                    $this->borrow->borrow($user_id, $book_id);
                     $this->book->reduceAvailableCopies($book_id);
+
                     $_SESSION['success'] = "Book borrowed successfully";
                 }
             }
         }
-
         $this->router->redirect('/dashboard');
     }
 }

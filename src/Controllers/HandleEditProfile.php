@@ -21,6 +21,7 @@ class HandleEditProfile
         $post = $_POST;
         try {
             Assertion::notEmpty($post['username'], "New Username is required");
+            require_once __DIR__ . '/../helper/upload.php';
             $this->user->editProfile($post);
             $_SESSION['username'] = $post["username"];
         } catch (Exception $e) {

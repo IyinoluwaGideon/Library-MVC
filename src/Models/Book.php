@@ -34,7 +34,7 @@ class Book
         return (int)$this->pdo->lastInsertId();
     }
 
-    public function createLibraryTable():void
+    public function createLibraryTable(): void
     {
         $query = "CREATE TABLE IF NOT EXISTS library(
                   book_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,7 +51,7 @@ class Book
         $this->pdo->exec($query);
     }
 
-    public function fetchAllBooks():array
+    public function fetchAllBooks(): array
     {
         $sql = 'SELECT * FROM library';
 
@@ -64,9 +64,9 @@ class Book
         return $books;
     }
 
-   
 
-    public function findBook(int $book_id):array
+
+    public function findBook(int $book_id): array
     {
         $sql = 'SELECT * FROM library
                 WHERE book_id = :book_id';
@@ -81,7 +81,7 @@ class Book
         return $book;
     }
 
-    public function getBookByTitle(string $title):array
+    public function getBookByTitle(string $title)
     {
         $sql = 'SELECT * FROM library
                 WHERE LOWER(title) = :title';
@@ -96,7 +96,7 @@ class Book
     }
 
 
-    public function deleteBook(string $book_id):bool
+    public function deleteBook(int $book_id): bool
     {
         $sql = 'DELETE FROM library
                 WHERE book_id = :book_id';
@@ -219,5 +219,18 @@ class Book
 
         $statement = $this->pdo->prepare($sql);
         $statement->execute([':book_id' => $book_id]);
+    }
+
+    public function increaseAvailableCopies($book_id)
+    {
+        $sql = 'UPDATE inventory
+        SET available_copies = available_copies + 1
+        WHERE book_id = :book_id';
+
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([
+            ':book_id' => $book_id
+
+        ]);
     }
 }

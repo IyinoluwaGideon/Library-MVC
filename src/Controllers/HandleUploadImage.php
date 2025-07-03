@@ -3,13 +3,11 @@
 declare(strict_types=1);
 
 namespace App\Controllers;
-
-use App\Models\User;
 use Assert\Assertion;
 use Core\Router;
 use Exception;
 
-class HandleUploadImage
+/*class HandleUploadImage
 {
     private $ALLOWED_FILES = [
         'image/png' => 'png',
@@ -28,12 +26,11 @@ class HandleUploadImage
     ];
 
     public function __construct(
-        private User $user,
         private Router $router
     ) {}
 
     public function action()
-    {   
+    {
 
 
         try {
@@ -58,13 +55,10 @@ class HandleUploadImage
 
             echo $filepath;
             exit;
-
-            
-            
         } catch (Exception $e) {
             $_SESSION['error'] = $e->getMessage();
         }
 
         $this->router->redirect("/dashboard");
     }
-}
+}*/

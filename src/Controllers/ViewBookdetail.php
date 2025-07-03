@@ -17,7 +17,7 @@ class ViewBookdetail
 
     public function action()
     {
-        $book_id = $_GET['book_id'];
+        $book_id = (int) $_GET['book_id'];
         if (isset($_SESSION['username'])) {
             $book = $this->book->findBook($book_id);
             require_once __DIR__  . '/../Views/bookdetail.php';

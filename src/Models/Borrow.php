@@ -67,7 +67,7 @@ class Borrow
         $this->pdo->exec($query);
     }
 
-    public function borrow()
+    public function borrow(int $user_id, int $book_id)
     {
         $this->createBorrowTable();
 
@@ -79,8 +79,8 @@ class Borrow
 
         $statement = $this->pdo->prepare($sql);
         $statement->execute([
-            ':user_id' => $_GET['user_id'],
-            ':book_id' => $_GET['book_id'],
+            ':user_id' => $user_id,
+            ':book_id' => $book_id,
             ':borrow_date' => $today->format('Y-m-d'),
             ':due_date' => $dueDate->format('Y-m-d')
         ]);

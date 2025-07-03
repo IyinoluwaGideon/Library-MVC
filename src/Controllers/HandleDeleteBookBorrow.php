@@ -19,8 +19,7 @@ class HandleDeleteBookBorrow
         $book_id = $_GET['book_id'];
         $user_id = $_SESSION['user_id'];
         $bookEntry = $this->borrow->getBookEntry();
-
-
+       
 
         if ($bookEntry === false) {
             //There is nothing to delete.
@@ -37,4 +36,7 @@ class HandleDeleteBookBorrow
 
         $this->router->redirect("/booklist");
     }
+
+
+    
 }

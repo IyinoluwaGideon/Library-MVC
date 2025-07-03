@@ -14,7 +14,7 @@
             <h1>Upload Image</h1>
             <div>
                 <label for="image">Image:</label>
-                <input type="file" name="user-image" id="image">
+                <input type="file" name="uploaded-image" id="image">
             </div>
             <section>
                 <button type="submit">Upload</button>

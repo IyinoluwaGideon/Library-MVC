@@ -22,6 +22,7 @@ class HandleEditBook
         $book_id = $_GET['book_id'];
         try {
             Assertion::notEmpty($post['author'], "Author is required");
+
             Assertion::notEmpty($post['genre'], "New Genre is required");
              if (ctype_digit($post['genre'])) {
                 $_SESSION['error'] = 'Invalid genre';
