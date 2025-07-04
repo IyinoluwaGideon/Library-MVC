@@ -34,7 +34,6 @@ function uploadImage(array $uploaded_items)
     $success = move_uploaded_file($temporaryPath, $filepath);
     if ($success === false) {
         throw new Exception("Error moving file");
-
-        return $filepath;
     }
+     return $filepath;
 }

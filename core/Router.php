@@ -84,7 +84,7 @@ class Router
         $this->handleReturn = new HandleReturn($this->borrow, $this, $this->book);
         $this->handleUserProfile = new HandleUserProfile($this->user);
         $this->viewUserProfile = new ViewUserProfile($this->user, $this);
-        $this->viewEditProfile = new ViewEditProfile();
+        $this->viewEditProfile = new ViewEditProfile($this->user);
         $this->handleEditProfile = new HandleEditProfile($this->user, $this);
         $this->viewUploadImage = new ViewUploadImage();
         // $this->handleUploadImage = new HandleUploadImage($this);

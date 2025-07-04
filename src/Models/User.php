@@ -92,12 +92,13 @@ class User
     public function editProfile($post)
     {
         $sql = 'UPDATE users
-                SET username = :username
+                SET username = :username, image = :image
                 WHERE id = :user_id';
 
         $statement = $this->pdo->prepare($sql);
         $statement->execute([
             ':username' => $post['username'],
+            ':image' => $post['image'] ?? null,
             ':user_id' => $_SESSION['user_id']
         ]);
     }
