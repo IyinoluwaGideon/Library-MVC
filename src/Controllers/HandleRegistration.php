@@ -19,7 +19,7 @@ class HandleRegistration
     ) {}
 
     public function action()
-    { 
+    {
         $post = $_POST;
         try {
             Assertion::notEmpty($post['username'], 'Username is requried' . "\n");
@@ -34,9 +34,10 @@ class HandleRegistration
             $id = $this->user->createUser($post);
             $_SESSION['user_id'] = $id;
             $_SESSION['username'] = $post['username'];
+            $_SESSION['role'] = 'user';
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
-        }        $this->router->redirect('/dashboard');
+        }
+        $this->router->redirect('/dashboard');
     }
-
 }

@@ -13,7 +13,7 @@ class Book
         private PDO $pdo
     ) {}
 
-    public function addbook($post)
+    public function addbook(array $post): int
     {
         $this->createLibraryTable();
         $this->createInventoryTable();
@@ -81,7 +81,7 @@ class Book
         return $book;
     }
 
-    public function getBookByTitle(string $title)
+    public function getBookByTitle(string $title): ?array
     {
         $sql = 'SELECT * FROM library
                 WHERE LOWER(title) = :title';
@@ -92,7 +92,7 @@ class Book
             ':title' => $title
         ]);
         $book = $statement->fetch(PDO::FETCH_ASSOC);
-        return $book;
+        return $book ?: null;
     }
 
 
@@ -107,18 +107,18 @@ class Book
         ]);
     }
 
-    public function deleteInventory()
+    public function deleteInventory(): void
     {
         $sql = 'DELETE FROM inventory
                 WHERE book_id = :book_id';
 
         $statement = $this->pdo->prepare($sql);
         $statement->execute([
-            ':book_id' => $_GET['book_id']
+            ':book_id' =>(int) $_GET['book_id']
         ]);
     }
 
-    public function editBook($post, $book_id)
+    public function editBook(array $post, int $book_id): bool
     {
 
         $sql = 'UPDATE library
@@ -139,7 +139,7 @@ class Book
         return true;
     }
 
-    public function searchBooks($title,  $author)
+    public function searchBooks(string $title, string $author): array
     {
         $sql = 'SELECT * FROM library
                  WHERE title LIKE :title
@@ -154,7 +154,7 @@ class Book
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function createInventoryTable()
+    public function createInventoryTable(): void
     {
         $query = "CREATE TABLE IF NOT EXISTS inventory(
                   book_id INT PRIMARY KEY,
@@ -167,7 +167,7 @@ class Book
     }
 
 
-    public function updateInventory($book_id, $total_copies, $available_copies)
+    public function updateInventory(int $book_id, int $total_copies, int $available_copies): void
     {
         $sql = 'INSERT INTO inventory(book_id, total_copies, available_copies) 
                 VALUES(:book_id, :total_copies, :available_copies)
@@ -183,7 +183,7 @@ class Book
         ]);
     }
 
-    public function checkAvailability(int $book_id)
+    public function checkAvailability(int $book_id): bool
     {
         $sql = 'SELECT available_copies FROM inventory
             WHERE book_id = :book_id';
@@ -196,7 +196,7 @@ class Book
     }
 
 
-    public function getInventoryDetails(int $book_id)
+    public function getInventoryDetails(int $book_id): ?array
     {
         $sql = 'SELECT total_copies, available_copies
                 FROM inventory 
@@ -211,7 +211,7 @@ class Book
         return $result;
     }
 
-    public function reduceAvailableCopies(int $book_id)
+    public function reduceAvailableCopies(int $book_id): void
     {
         $sql = 'UPDATE inventory
             SET available_copies = available_copies - 1
@@ -221,7 +221,7 @@ class Book
         $statement->execute([':book_id' => $book_id]);
     }
 
-    public function increaseAvailableCopies($book_id)
+    public function increaseAvailableCopies(int $book_id): void
     {
         $sql = 'UPDATE inventory
         SET available_copies = available_copies + 1

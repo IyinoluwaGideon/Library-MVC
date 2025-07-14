@@ -18,6 +18,8 @@ class ViewUserProfile{
     {
         if (isset($_SESSION['username'])) {
             $user = $this->user->userProfile([]);
+    //   var_dump($user['image']);
+    //   exit;
             require_once __DIR__  . '/../Views/userprofile.php';
         } else {
             $this->router->redirect('/login');

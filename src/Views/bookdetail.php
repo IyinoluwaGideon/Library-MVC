@@ -7,6 +7,43 @@
     <link rel="stylesheet" href="https://www.phptutorial.net/app/css/style.css">
     <title>Book Details</title>
     <style>
+        .navbar {
+            background-color: #4a90e2;
+            color: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .navbar nav a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+
+        .footer {
+            background-color: #4a90e2;
+            color: #fff;
+            text-align: center;
+            padding: 15px 10px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .navbar nav a {
+                font-size: 14px;
+                margin-left: 10px;
+            }
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -82,6 +119,14 @@
 </head>
 
 <body>
+    <header class="navbar">
+        <div class="logo">LibrarySystem</div>
+        <nav>
+            <a href="/dashboard">Home</a>
+            <a href="/booklist">Books</a>
+            <a href="logout">Logout</a>
+        </nav>
+    </header>
     <main>
         <!-- <?php if (isset($_SESSION['book_detail'])): ?>
     <?php $book = $_SESSION['book_detail']; ?>
@@ -113,10 +158,14 @@
                 <td><?= $book['description'] ?></td>
             </tr>
         </table>
-         <p style="display: inline;"><a href="/dashboard" class="round-button">Dashboard</a></p>
+        <p style="display: inline;"><a h`ref="/dashboard" class="round-button">Dashboard</a></p>
         <p style="display: inline;"><a href="/booklist" class="round-button">Back</a></p>
 
     </main>
 </body>
+<!-- Footer -->
+<footer class="footer">
+    &copy; 2025 Library Management System. All rights reserved.
+</footer>
 
 </html>

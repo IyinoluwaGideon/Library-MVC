@@ -51,15 +51,12 @@ class HandleAddbook
                 $this->router->redirect("/addbook");
             }
             Assertion::lessOrEqualThan($post['publication_year'], date("Y"), "The year is not valid");
-
-
             $title = $post['title'];
             $exisistingBook = $this->book->getBookByTitle($title);
-
-            if ($exisistingBook === false) {
+            if (!$exisistingBook) {
                 $book_id = $this->book->addbook($post);
-                $total_copies = $post['copies'];
-                $available_copies = $post['copies'];
+                $total_copies = (int) $post['copies'];
+                $available_copies = (int) $post['copies'];
                 $this->book->updateInventory($book_id, $total_copies, $available_copies);
                 $_SESSION['success'] = "Book added susscessfully";
             } else {

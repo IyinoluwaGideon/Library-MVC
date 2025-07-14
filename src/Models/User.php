@@ -7,26 +7,22 @@ use PDO;
 
 class User
 {
-    private $ALLOWED_FILES = [
-        'image/png' => 'png',
-        'image/jpeg' => 'jpg'
-    ];
 
     public function __construct(
         private PDO $pdo
 
     ) {}
 
-    public function checkUserByEmail($post)
+    public function checkUserByEmail(array $post): array
     {
         $stmt = $this->pdo->prepare("SELECT EXISTS (SELECT 1 FROM users WHERE email = :email) AS email_exists");
         $stmt->execute(['email' => $post['email']]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result;
+        return $result ?: null;
     }
 
 
-    public function createUser($post): int
+    public function createUser(array $post): int
     {
         $this->createUserTable();
         $sql = 'INSERT INTO users(username, email, password, role) VALUES(:username, :email, :password, :role)';
@@ -43,7 +39,7 @@ class User
     }
 
 
-    public function checkUserByUsername()
+    public function checkUserByUsername(string $username): ?array
     {
         $sql = 'SELECT * FROM users
                 WHERE username = :username';
@@ -51,16 +47,20 @@ class User
         $statement = $this->pdo->prepare($sql);
 
         $statement->execute([
-            ':username' => $_POST['username']
+            ':username' => $username
         ]);
 
         $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-        return $user;
+        // if (!$user) {
+        //     throw new \Exception("User not found");
+        // }
+
+        return $user ?: null;
     }
 
 
-    private function createUserTable()
+    private function createUserTable(): void
     {
         $query = "CREATE TABLE IF NOT EXISTS users ( 
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -73,7 +73,7 @@ class User
         $this->pdo->exec($query);
     }
 
-    public function userProfile()
+    public function userProfile(): ?array
     {
 
         $sql = 'SELECT * FROM users
@@ -86,10 +86,10 @@ class User
         ]);
 
         $user = $statement->fetch(PDO::FETCH_ASSOC);
-        return $user;
+        return $user ?: null;
     }
 
-    public function editProfile($post)
+    public function editProfile(array $post): void
     {
         $sql = 'UPDATE users
                 SET username = :username, image = :image
@@ -103,7 +103,7 @@ class User
         ]);
     }
 
-    public function deleteUser($user_id)
+    public function deleteUser(int $user_id): bool
     {
         $sql = 'DELETE FROM users
                 WHERE id = :user_id';
@@ -115,7 +115,7 @@ class User
         return $statement->execute();
     }
 
-    public function fetchUserRecord()
+    public function fetchUserRecord(): array
     {
 
         $sql = 'SELECT * FROM users';
@@ -125,6 +125,19 @@ class User
         $statement->execute();
 
         $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $users;
+    }
+
+    public function fetchAllUsers(): array
+    {
+        $sql = 'SELECT * FROM users';
+
+        $statement = $this->pdo->prepare($sql);
+
+        $statement->execute();
+
+        $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+
         return $users;
     }
 }

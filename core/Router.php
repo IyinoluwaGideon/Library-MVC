@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Core;
 
 use App\Controllers\HandleAddbook;
+use App\Controllers\HandleBookList;
 use App\Controllers\HandleBorrowBook;
 use App\Controllers\HandleDeleteBook;
 use App\Controllers\HandleDeleteBookBorrow;
@@ -29,6 +30,7 @@ use App\Controllers\ViewLibrary;
 use App\Controllers\ViewLoginPage;
 use App\Controllers\ViewRegistrationPage;
 use App\Controllers\ViewUploadImage;
+use App\Controllers\ViewUserList;
 use App\Controllers\ViewUserProfile;
 use App\Controllers\ViewUserRecord;
 use App\Models\Book;
@@ -66,6 +68,7 @@ class Router
     private HandleEditBook $handleEditBook;
     private ViewEditBook $viewEditBook;
     private HandleSearchBooks $handleSearchBooks;
+    private ViewUserList $viewUserList;
  
     public function __construct(Database $database, private User $user, private Book $book, private Borrow $borrow)
     {
@@ -96,6 +99,7 @@ class Router
         $this->handleEditBook = new HandleEditBook($this->book, $this);
         $this->viewEditBook = new ViewEditBook();
         $this->handleSearchBooks = new HandleSearchBooks($this->book, $this);
+        $this->viewUserList = new ViewUserList($this, $this->user);
         }
 
 

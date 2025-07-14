@@ -19,7 +19,7 @@ class HandleEditBook
     public function action()
     {
         $post = $_POST;
-        $book_id = $_GET['book_id'];
+        $book_id =(int) $_GET['book_id'];
         try {
             Assertion::notEmpty($post['author'], "Author is required");
 
@@ -41,7 +41,7 @@ class HandleEditBook
 
             $this->book->editBook($post, $book_id);
 
-            $this->book->updateInventory($book_id, $post['copies'], $post['copies']);
+            $this->book->updateInventory($book_id, (int) $post['copies'], (int) $post['copies']);
             $_SESSION['success'] = 'Book edited successfully';
         } catch (Exception $e) {
             $_SESSION['error'] = $e->getMessage();

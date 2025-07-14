@@ -22,15 +22,17 @@ define('MESSAGES',  [
     'UPLOAD_ERR_EXTENSION' => 'File is not allowed to upload to this server'
 ]);
 
+const UPLOAD_DIR = 'uploads/';
+ 
 function uploadImage(array $uploaded_items)
 {
     $temporaryPath = $uploaded_items['uploaded-image']['tmp_name'];
-
-    $mime_type = $uploaded_items['uploaded-image']['type'];
-    $uploaded_file = pathinfo($_FILES['uploaded-image']['name'], PATHINFO_FILENAME) . '.' . ALLOWED_FILES[$mime_type];
-
-    $filepath = __DIR__ . '/../../uploads/' . $uploaded_file;
-
+    // $mime_type = $uploaded_items['uploaded-image']['type'];
+    if(!file_exists(UPLOAD_DIR)){
+        mkdir(UPLOAD_DIR);
+    }
+    
+    $filepath = UPLOAD_DIR.$_FILES['uploaded-image']['name'];
     $success = move_uploaded_file($temporaryPath, $filepath);
     if ($success === false) {
         throw new Exception("Error moving file");

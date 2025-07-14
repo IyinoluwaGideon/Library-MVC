@@ -153,10 +153,10 @@
   <header class="navbar">
     <div class="logo">LibrarySystem</div>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Books</a>
-      <a href="#">Profile</a>
-      <a href="#">Logout</a>
+      <a href="/dashboard">Home</a>
+      <a href="/booklist">Books</a>
+      <a href="/userprofile">Profile</a>
+      <a href="/logout">Logout</a>
     </nav>
   </header>
 

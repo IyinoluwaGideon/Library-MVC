@@ -143,9 +143,10 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Profile - Library System</title>
   <style>
     body {
@@ -192,7 +193,7 @@
       background: #fff;
       border-radius: 15px;
       padding: 30px 40px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       text-align: center;
       max-width: 400px;
       width: 100%;
@@ -258,24 +259,39 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- Navbar -->
-  <header class="navbar">
-    <div class="logo">LibrarySystem</div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Books</a>
-      <a href="#">Profile</a>
-      <a href="#">Logout</a>
-    </nav>
-  </header>
+  <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
+   <header class="navbar">
+      <div class="logo">LibrarySystem</div>
+      <nav>
+        <a href="/dashboard">Home</a>
+        <a href="/booklist">Books</a>
+        <a href="/logout">Logout</a>
+      </nav>
+    </header>
+  <?php endif; ?>
+
+  <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+    <header class="navbar">
+      <div class="logo">LibrarySystem</div>
+      <nav>
+        <a href="/dashboard">Home</a>
+        <a href="/booklist">Books</a>
+        <a href="/logout">Logout</a>
+        <a href="/userlist">User List</a>
+      </nav>
+    </header>
+  <?php endif; ?>
 
   <!-- Main Profile Section -->
   <div class="main-content">
     <div class="profile-card">
       <a href="/editprofile" class="round-button"><button class="edit-btn" title="Edit Profile">✏️</button></a>
-      <img src="<?= __DIR__.$user['image'] ?? " https://i.pravatar.cc/150?img=12" ?> alt="Profile Picture" class="profile-pic" />
+      <img src="<?= $user['image'] ?? " https://i.pravatar.cc/150?img=12" ?>" alt="Profile Picture" class="profile-pic" />
+      <!-- <img src="https://i.pravatar.cc/150?img=12" alt="Profile Picture" class="profile-pic" /> -->
       <h2><?= $user['username'] ?></h2>
       <div class="profile-info"><span class="label">Library ID:</span><?= $user['id'] ?></div>
       <div class="profile-info"><span class="label">Email:</span><?= $user['email'] ?></div>
@@ -288,4 +304,5 @@
   </footer>
 
 </body>
+
 </html>

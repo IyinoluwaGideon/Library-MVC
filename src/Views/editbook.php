@@ -7,8 +7,54 @@
     <link rel="stylesheet" href="https://www.phptutorial.net/app/css/style.css">
     <title>Book</title>
 </head>
+<style>
+    .navbar {
+        background-color: #4a90e2;
+        color: #fff;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar .logo {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .navbar nav a {
+        color: #fff;
+        margin-left: 20px;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+
+    .footer {
+        background-color: #4a90e2;
+        color: #fff;
+        text-align: center;
+        padding: 15px 10px;
+        font-size: 14px;
+    }
+
+    @media (max-width: 500px) {
+        .navbar nav a {
+            font-size: 14px;
+            margin-left: 10px;
+        }
+    }
+</style>
 
 <body>
+    <header class="navbar">
+        <div class="logo">LibrarySystem</div>
+        <nav>
+            <a href="/dashboard">Home</a>
+            <a href="/booklist">Books</a>
+            <a href="logout">Logout</a>
+        </nav>
+    </header>
     <main>
         <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success"><?= $_SESSION['success'] ?></div>
@@ -45,5 +91,9 @@
         </form>
     </main>
 </body>
+<!-- Footer -->
+<footer class="footer">
+    &copy; 2025 Library Management System. All rights reserved.
+</footer>
 
 </html>

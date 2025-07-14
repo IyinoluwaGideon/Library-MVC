@@ -16,8 +16,8 @@ class HandleSearchBooks
 
     public function action()
     {
-        $search = $_GET['search'];
-        $book_id = $_GET['book_id'];
+        $search = (string) $_GET['search'];
+        $book_id =(int) $_GET['book_id'];
 
         $books = $this->book->searchBooks($search, $search, $book_id);
 

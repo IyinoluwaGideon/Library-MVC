@@ -18,19 +18,11 @@ class HandleDeleteUser
 
     public function action()
     {
-        $user_id = $_SESSION['user_id'];
-        // $book_id = $_GET['book_id'];
-        $borrowbookEntry = $this->borrow->getBookEntryy();
+        $user_id = (int) $_GET['user_id'];
+         $this->borrow->deleteUserBorrowDetails($user_id);
+        $this->user->deleteUser($user_id,);
+        $_SESSION["success"] = "User deleted successfully";
 
-        if ($borrowbookEntry ===  false) {
-            $this->user->deleteUser($user_id,);
-            $_SESSION["success"] = "User deleted successfully";
-        } else {
-
-                $_SESSION["error"] = "User has borrow history; cancel it to delete user.";
-                $this->router->redirect("/dashboard");
-            
-        }
-        $this->router->redirect("/logout");
+        $this->router->redirect("/userlist");
     }
 }

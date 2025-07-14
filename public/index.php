@@ -46,6 +46,7 @@ $router->get("/deleteBookBorrowDetails", 'handleDeleteBookBorrow');
 $router->get("/editbook", "viewEditBook");
 $router->post("/editbook", "handleEditBook");
 $router->get("/searchbooks", "handleSearchBooks");
+$router->get("/userlist", "viewUserList");
  
 
 

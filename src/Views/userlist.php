@@ -5,18 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://www.phptutorial.net/app/css/style.css">
-    <title>Dashboard</title>
-
+    <title>Book</title>
     <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f9;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
         .navbar {
             background-color: #4a90e2;
             color: #fff;
@@ -36,30 +26,6 @@
             margin-left: 20px;
             text-decoration: none;
             font-size: 16px;
-        }
-
-        .top-right-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 10px 10px;
-            background-color: transparent;
-            color: #6f42c1;
-            border: 1px solid #6f42c1;
-            border-radius: 80px;
-            cursor: pointer;
-            margin-right: 500px;
-        }
-
-        body {
-            /* position: relative; */
-            height: 100vh;
-            /* width: 500px; */
-        }
-
-        .top-right-btn:hover {
-            background-color: #6f42c1;
-            color: white;
         }
 
         .buttons {
@@ -141,16 +107,37 @@
             color: white;
         }
 
-        .info {
-            display: inline-block;
-            padding: 4px 10px;
-            background-color: transparent;
-            color: #6f42c1;
-            text-decoration: none;
-            border: 2px solid #6f42c1;
-            border-radius: 25px;
+        .booklist {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 70%;
+        }
+
+        .booklist>div {
+            width: 30%;
+            margin: 1%;
+            box-sizing: border-box;
+        }
+
+        .booklist p {
+            color: #111111;
             font-weight: bold;
-            transition: 0.3s;
+        }
+
+        .image-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .book-image {
+            width: 100%;
+            height: 80%;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .footer {
@@ -176,74 +163,61 @@
         <nav>
             <a href="#"></a>
             <a href="#"></a>
-            <a href="/booklist">Books</a>
+            <a href="/dashboard">Home</a>
         </nav>
     </header>
     <main>
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?= $_SESSION['success'] ?></div>
+            <?php unset($_SESSION['success']) ?>
+        <?php endif ?>
 
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-error"><?= $_SESSION['error'] ?></div>
             <?php unset($_SESSION['error']) ?>
         <?php endif ?>
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'] ?></div>
-            <?php unset($_SESSION['success']) ?>
-        <?php endif ?>
-          <?php if (isset($_SESSION['warning'])): ?>
-            <div class="alert alert-warning"><?= $_SESSION['warning'] ?></div>
-            <?php unset($_SESSION['warning']) ?>
-        <?php endif ?>
-
-        <p>
-        <h1><strong>DASHBOARD</strong></h1>
-        </p>
-        <p><strong>Welcome, <?= $_SESSION["username"] ?></strong></p>
-        <p style="display: inline;"><a href="/booklist" class="round-button">Borrow/Return Book</a></p>
 
 
 
-        <?php if (!empty($books)) : ?>
-            <h4>My borrowed book list</h4>
+        <div class="container">
+            <div>
+                <p><strong>User Directory</strong></p>
+                <p style="display: inline;"><a href="/userprofile" class="round-button">Profile</a></p>
+            </div>
+        </div>
 
-            <table>
+        <table>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                 <tr>
                     <th>S/N</th>
-                    <th>Book_id</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Book Details</th>
-                    <th>Return Book</th>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Delete User</th>
                 </tr>
-                <?php foreach ($books as $book) : ?>
+            <?php endif ?>
+            <?php foreach ($users as $key => $user) : ?>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                     <tr>
                         <td><?= $count ?></td>
-                        <td><?= $book['book_id'] ?></td>
-                        <td><?= $book['title'] ?></td>
-                        <td><?= $book['author'] ?></td>
+                        <td><?= $user['id'] ?></td>
+                        <td><?= $user['username'] ?></td>
                         <td>
-                            <p style="display: inline;"><a href="/bookdetail?book_id=<?= $book['book_id'] ?>" class="buttons">View Details</a></p>
-                        </td>
-                        <td>
-                            <?php if ($book['return_date'] === null) : ?>
-                                <p style="display: inline;"><a href="/return?book_id=<?= $book['book_id'] ?>&user_id=<?= $_SESSION["user_id"] ?>" class="round-button">Return</a></p>
-                            <?php else : ?>
-                                <p style="display: inline;" class="buttons">Returned</p>
-                            <?php endif ?>
+                            <p style="display: inline;"><a href="/deleteuser?user_id=<?= $user["id"] ?>" class="round-button">Delete User</a></p>
                         </td>
                     </tr>
-                    <?php $count += 1 ?>
-                <?php endforeach ?>
+                <?php endif ?>
+                <?php $count += 1 ?>
+            <?php endforeach ?>
 
-            </table>
-        <?php endif ?>
+        </table>
 
-        <p style="display: inline;"><a href="/userprofile" class="top-right-btn"><img src="./profile-icon-design-free-vector.jpg" width="20" height="20">
-            </a></p>
+
+
+
     </main>
-     <!-- Footer -->
-  <footer class="footer">
-    &copy; 2025 Library Management System. All rights reserved.
-  </footer>
+    <footer class="footer">
+        &copy; 2025 Library Management System. All rights reserved.
+    </footer>
 </body>
 
 </html>

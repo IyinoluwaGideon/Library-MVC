@@ -19,7 +19,7 @@ class ViewDashboard {
         
     }
     public function action() {
-        if( isset($_SESSION['username']))
+        if(isset($_SESSION['username']))
         {
             $borrowList = $this->borrow->getUserBorrowList();
 
