@@ -264,7 +264,7 @@
 
   <!-- Navbar -->
   <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
-   <header class="navbar">
+    <header class="navbar">
       <div class="logo">LibrarySystem</div>
       <nav>
         <a href="/dashboard">Home</a>
@@ -290,14 +290,14 @@
   <div class="main-content">
     <div class="profile-card">
       <a href="/editprofile" class="round-button"><button class="edit-btn" title="Edit Profile">✏️</button></a>
-      <img src="<?= $user['image'] ?? " https://i.pravatar.cc/150?img=12" ?>" alt="Profile Picture" class="profile-pic" />
+      <img src="<?= $user['image'] ?? "profile-icon-design-free-vector.jpg" ?>" alt="Profile Picture" class="profile-pic" />
       <!-- <img src="https://i.pravatar.cc/150?img=12" alt="Profile Picture" class="profile-pic" /> -->
       <h2><?= $user['username'] ?></h2>
       <div class="profile-info"><span class="label">Library ID:</span><?= $user['id'] ?></div>
       <div class="profile-info"><span class="label">Email:</span><?= $user['email'] ?></div>
     </div>
   </div>
-
+  <!-- https://i.pravatar.cc/150?img=12 -->
   <!-- Footer -->
   <footer class="footer">
     &copy; 2025 Library Management System. All rights reserved.

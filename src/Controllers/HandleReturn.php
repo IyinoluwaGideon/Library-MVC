@@ -69,7 +69,7 @@ class HandleReturn
             $fine = $daysLate * 1000;
             $this->borrow->updateReturnAndFine($returnDate, $fine, $book_id, $user_id);
             $_SESSION['success'] = "Book returned. Fine: ₦" . $fine;
-            $_SESSION['warning'] =  "You have the fine of ₦" . $fine . " to pay, to borrow again";
+            $_SESSION['warning'] =  "You have an outstanding fine of ₦" . $fine . " to pay.";
         
         }
         $this->router->redirect('/dashboard');

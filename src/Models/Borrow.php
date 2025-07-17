@@ -48,9 +48,9 @@ class Borrow
         return $bookEntry ?: null;
     }
 
-       public function getUserBorrowedBooks(int $user_id): ?array
+       public function getUserFines(int $user_id): ?array
     {
-        $sql = 'SELECT * FROM  borrow
+        $sql = 'SELECT fine FROM  borrow
                 WHERE user_id = :user_id
                 ORDER BY borrow_id DESC';
 
@@ -101,22 +101,22 @@ class Borrow
         ]);
     }
 
-    public function setReturnDate(): void
-    {
+    // public function setReturnDate(): void
+    // {
 
-        $today = new DateTime();
-        $sql = 'UPDATE borrow
-                SET return_date = :return_date
-                WHERE book_id = :book_id AND user_id = :user_id';
+    //     $today = new DateTime();
+    //     $sql = 'UPDATE borrow
+    //             SET return_date = :return_date
+    //             WHERE book_id = :book_id AND user_id = :user_id';
 
-        $statement = $this->pdo->prepare($sql);
-        $statement->execute([
-            ':book_id' => $_GET['book_id'],
-            ':user_id' => $_GET['user_id'],
-            ':return_date' => $today->format('Y-m-d')
+    //     $statement = $this->pdo->prepare($sql);
+    //     $statement->execute([
+    //         ':book_id' => $_GET['book_id'],
+    //         ':user_id' => $_GET['user_id'],
+    //         ':return_date' => $today->format('Y-m-d')
 
-        ]);
-    }
+    //     ]);
+    // }
 
     public function updateReturnAndFine(DateTime $returnDate, int $fine, int $book_id, int $user_id): void
     {
@@ -186,7 +186,7 @@ class Borrow
         return $statement->execute() ?: null;
     }
 
-    public function countUserBorrowedBooks(int $user_id): int
+    public function getTotalBorrowedBook(int $user_id): int
     {
         $sql = 'SELECT COUNT(*) FROM borrow WHERE user_id = :user_id';
         $statement = $this->pdo->prepare($sql);

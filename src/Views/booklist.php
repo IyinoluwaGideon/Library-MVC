@@ -237,8 +237,6 @@
                     <th>Title</th>
                     <th>Author</th>
                     <th>Book Details</th>
-                    <th>Borrow Book</th>
-                    <th>Cancle Borrow</th>
                     <th>Edit Book</th>
                     <th>Delete Book</th>
                 </tr>
@@ -270,12 +268,6 @@
                         <td><?= $book['author'] ?></td>
                         <td>
                             <p style="display: inline;"><a href="/bookdetail?book_id=<?= $book['book_id'] ?>" class="buttons">View Details</a></p>
-                        </td>
-                        <td>
-                            <p style="display: inline;"><a href="/borrow?user_id=<?= $_SESSION["user_id"] ?>&book_id=<?= $book['book_id'] ?>" class="round-button">Borrow</a></p>
-                        </td>
-                        <td>
-                            <p style="display: inline;"><a href="/deleteBookBorrowDetails?book_id=<?= $book['book_id'] ?>&user_id=<?= $_SESSION["user_id"] ?>" class="round-button">Cancle Borrow</a></p>
                         </td>
                         <td>
 
