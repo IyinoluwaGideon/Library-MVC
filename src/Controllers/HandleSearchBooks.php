@@ -17,12 +17,16 @@ class HandleSearchBooks
     public function action()
     {
         $search = (string) $_GET['search'];
-        $book_id =(int) $_GET['book_id'];
+        // $book_id = (int) $_GET['book_id'];
 
-        $books = $this->book->searchBooks($search, $search, $book_id);
+        $books = $this->book->searchBooks($search, $search,);
 
 
         $_SESSION['search_results'] = $books;
+        echo '<pre>';
+        var_dump($books[0]); // or var_dump($books[0]);
+        echo '</pre>';
+
 
         if (empty($search)) {
             $_SESSION['error'] = "Search term cannot be empty.";
@@ -33,5 +37,7 @@ class HandleSearchBooks
         }
 
         $this->router->redirect('/booklist');
+
+        exit;
     }
 }

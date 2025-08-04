@@ -23,19 +23,29 @@ define('MESSAGES',  [
 ]);
 
 const UPLOAD_DIR = 'uploads/';
- 
+
 function uploadImage(array $uploaded_items)
 {
+
+    // Check if an image was actually uploaded
+    // Return null if no file was uploaded
+    if (
+        empty($uploaded_items['uploaded-image']) ||
+        $uploaded_items['uploaded-image']['error'] !== UPLOAD_ERR_OK
+    ) {
+        return null;
+    }
+
     $temporaryPath = $uploaded_items['uploaded-image']['tmp_name'];
     // $mime_type = $uploaded_items['uploaded-image']['type'];
-    if(!file_exists(UPLOAD_DIR)){
+    if (!file_exists(UPLOAD_DIR)) {
         mkdir(UPLOAD_DIR);
     }
-    
-    $filepath = UPLOAD_DIR.$_FILES['uploaded-image']['name'];
+
+    $filepath = UPLOAD_DIR . $_FILES['uploaded-image']['name'];
     $success = move_uploaded_file($temporaryPath, $filepath);
     if ($success === false) {
         throw new Exception("Error moving file");
     }
-     return $filepath;
+    return $filepath;
 }

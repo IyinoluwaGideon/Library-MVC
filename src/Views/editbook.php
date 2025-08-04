@@ -8,6 +8,13 @@
     <title>Book</title>
 </head>
 <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to right, #f0f4ff, #e9efff);
+        margin: 0;
+        padding: 0;
+    }
+
     .navbar {
         background-color: #4a90e2;
         color: #fff;
@@ -66,7 +73,7 @@
             <?php unset($_SESSION['error']) ?>
         <?php endif ?>
 
-        <form action="/editbook?book_id=<?= $_GET['book_id'] ?>" method="post">
+        <form action="/editbook?book_id=<?= $_GET['book_id'] ?>" method="post" enctype="multipart/form-data">
             <h1>Edit Book</h1>
             <div>
                 <label for="author">Author:</label>
@@ -83,6 +90,10 @@
             <div>
                 <label for="description">Description:</label>
                 <input type="text" name="description" id="description" value="<?= $_GET['description'] ?? '' ?>">
+            </div>
+            <div class="form-group">
+                <label for="bookImage">Cover Image</label>
+                <input type="file" id="bookImage" name="uploaded-image" accept="image/*">
             </div>
             <section>
                 <button type="submit">Edit</button>

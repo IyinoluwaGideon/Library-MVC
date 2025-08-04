@@ -1,11 +1,11 @@
-<?php
+ <?php
 
-declare(strict_types=1);
+/*declare(strict_types=1);
 
 namespace App\Controllers;
 
 use App\Models\Borrow;
-use Core\Router;
+use Core\Router; 
 
 // class HandleDeleteUserBorrow
 // {
@@ -28,4 +28,4 @@ use Core\Router;
 
 //         $this->router->redirect("/dashboard");
 //     }
-// }
+// }*/

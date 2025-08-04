@@ -19,7 +19,7 @@ class HandleDeleteUser
     public function action()
     {
         $user_id = (int) $_GET['user_id'];
-         $this->borrow->deleteUserBorrowDetails($user_id);
+        $this->borrow->deleteUserBorrowDetails($user_id);
         $this->user->deleteUser($user_id,);
         $_SESSION["success"] = "User deleted successfully";
 

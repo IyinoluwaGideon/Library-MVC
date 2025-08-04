@@ -150,6 +150,13 @@
   <title>User Profile - Library System</title>
   <style>
     body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #f0f4ff, #e9efff);
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f4f6f9;
@@ -291,7 +298,6 @@
     <div class="profile-card">
       <a href="/editprofile" class="round-button"><button class="edit-btn" title="Edit Profile">✏️</button></a>
       <img src="<?= $user['image'] ?? "profile-icon-design-free-vector.jpg" ?>" alt="Profile Picture" class="profile-pic" />
-      <!-- <img src="https://i.pravatar.cc/150?img=12" alt="Profile Picture" class="profile-pic" /> -->
       <h2><?= $user['username'] ?></h2>
       <div class="profile-info"><span class="label">Library ID:</span><?= $user['id'] ?></div>
       <div class="profile-info"><span class="label">Email:</span><?= $user['email'] ?></div>

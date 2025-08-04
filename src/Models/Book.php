@@ -18,8 +18,8 @@ class Book
         $this->createLibraryTable();
         $this->createInventoryTable();
 
-        $sql = 'INSERT INTO library(title, author, isbn, publication_year, genre, copies, description) 
-                VALUES(:title, :author, :isbn, :publication_year, :genre, :copies, :description)';
+        $sql = 'INSERT INTO library(title, author, isbn, publication_year, genre, copies, description, image) 
+                VALUES(:title, :author, :isbn, :publication_year, :genre, :copies, :description, :image)';
 
         $statement = $this->pdo->prepare($sql);
         $statement->execute([
@@ -29,7 +29,8 @@ class Book
             ':publication_year' => $post['publication_year'],
             ':genre' => $post['genre'],
             ':copies' => $post['copies'],
-            ':description' => $post['description']
+            ':description' => $post['description'],
+            ':image' => $post['image'] ?? null
         ]);
         return (int)$this->pdo->lastInsertId();
     }
@@ -125,7 +126,8 @@ class Book
                 SET author = :author, 
                 genre = :genre,
                 copies = :copies,
-                description = :description 
+                description = :description,
+                image = :image 
                 WHERE book_id = :book_id';
 
         $statement = $this->pdo->prepare($sql);
@@ -134,7 +136,8 @@ class Book
             ':genre' => $post['genre'],
             ':copies' => $post['copies'],
             ':description' => $post['description'],
-            ':book_id' => $book_id
+            ':book_id' => $book_id,
+            ':image' => $post['image'] ?? null
         ]);
         return true;
     }

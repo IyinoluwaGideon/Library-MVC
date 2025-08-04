@@ -16,8 +16,6 @@ class ViewBookList
 
     public function action()
     {
-        //  $books = $_SESSION['search_results'] ?? $this->book->fetchAllBooks();
-        // unset($_SESSION['search_results']); // Clear search result after use
         if (isset($_SESSION['username'])) {
             $books = $this->book->fetchAllBooks([]);
             require_once __DIR__ . '/../Views/booklist.php';

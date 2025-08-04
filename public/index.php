@@ -31,7 +31,7 @@ $router->post("/addbook", "handleAddbook");
 $router->get("/bookdetail", "viewBookdetail");
 $router->get("/booklist", "viewBooklist");
 $router->get("/borrow", "handleBorrowBook");
-$router->get("/hrflibrary", "viewLibrary"); 
+$router->get("/", "viewLibrary"); 
 $router->get("/return", "handleReturn");
 $router->get("/userprofile", "viewUserProfile");
 $router->post("/editprofile", "handleEditProfile");

@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+require_once __DIR__ . '/../helper/upload.php';
+
+
 use App\Models\Book;
 use Assert\Assertion;
 use Core\Router;
 use Exception;
+
+use function App\helper\uploadImage;
 
 class HandleAddbook
 {
@@ -19,24 +24,28 @@ class HandleAddbook
 
     public function action()
     {
+
         try {
             $post = $_POST;
+            $imgUrl = uploadImage($_FILES);
             Assertion::notEmpty($post['title'], 'The title of the book is required' . "\n");
+            $post['image'] = $imgUrl;
             if (ctype_digit($post['title'])) {
                 $_SESSION['error'] = "Invalid title;";
                 $this->router->redirect("/addbook");
             }
             Assertion::notEmpty($post['author'], 'The name of the author is required' . "\n");
-            if (Assertion::notEmpty($post['isbn'], 'ISBN is required' . "\n")) {}
+            if (Assertion::notEmpty($post['isbn'], 'ISBN is required' . "\n")) {
+            }
             $isbn = str_replace('-', '', $post['isbn']);
             if (!ctype_digit($isbn) || (strlen($isbn) !== 13)) {
                 $_SESSION['error'] = "ISBN must be eaual to 13 digit number only";
                 $this->router->redirect("/addbook");
             }
             Assertion::notEmpty($post['publication_year'], 'Publication_Date is required');
-            
+
             Assertion::notEmpty($post['genre'], 'The genre is required');
-             if (ctype_digit($post['genre'])) {
+            if (ctype_digit($post['genre'])) {
                 $_SESSION['error'] = 'Invalid genre';
                 $this->router->redirect("/addbook");
             }

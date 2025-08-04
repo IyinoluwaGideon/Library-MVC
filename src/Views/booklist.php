@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -169,16 +169,16 @@
     <main>
         <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success"><?= $_SESSION['success'] ?></div>
-            <?php unset($_SESSION['success']) ?>
+           
         <?php endif ?>
 
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-error"><?= $_SESSION['error'] ?></div>
-            <?php unset($_SESSION['error']) ?>
+            
         <?php endif ?>
          <?php if (isset($_SESSION['warning'])): ?>
             <div class="alert alert-warning"><?= $_SESSION['warning'] ?></div>
-            <?php unset($_SESSION['warning']) ?>
+           
         <?php endif ?>
 
 
@@ -201,25 +201,7 @@
             </div>
         </div>
 
-        <form method="GET" action="/searchbooks" style="display: flex; gap: 8px; margin-bottom: 20px;">
-            <input
-                type="text"
-                name="search"
-                placeholder="Search by Title or Author"
-                value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
-                style="padding: 8px; border-radius: 15px; border: 1px solid #ccc; width: 300px;">
-
-            <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 15px; cursor: pointer;">
-                🔍 Search
-            </button>
-        </form>
-
-        <?php
-        $books = $_SESSION['search_results'] ?? $this->book->fetchAllBooks();
-        unset($_SESSION['search_results']);
-        ?>
-
-
+       
         <table>
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
                 <tr>
@@ -281,14 +263,394 @@
             <?php endforeach ?>
 
         </table>
-
-
-
-
     </main>
     <footer class="footer">
         &copy; 2025 Library Management System. All rights reserved.
     </footer>
 </body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.phptutorial.net/app/css/style.css">
+    <title>Book</title>
+    <style>
+        .alert {
+            padding: 12px 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            width: 90%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Error = red */
+        .alert-error {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
+
+        /* Success = green */
+        .alert-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+        }
+
+        /* Warning = yellow/orange */
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #664d03;
+            border: 1px solid #ffecb5;
+        }
+
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f0f4ff, #e9efff);
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px 0 30px;
+            align-items: center;
+        }
+
+        .addbook-btn,
+        .back-btn {
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .addbook-btn:hover,
+        .back-btn:hover {
+            background-color: #3c7fd4;
+            transform: translateY(-2px);
+        }
+
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            /* centers it horizontally */
+            margin-bottom: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-form input {
+            padding: 8px;
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            width: 300px;
+        }
+
+        .search-form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f5f7fa;
+        }
+
+        .navbar {
+            background-color: #4a90e2;
+            color: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .navbar nav a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+
+        .book-section {
+            padding: 20px 30px;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            /* allows more books per row */
+            gap: 40px;
+            /* relaxed space between books */
+            padding: 10px 40px;
+            /* space around the grid */
+            justify-items: center;
+        }
+
+
+        .book-card {
+            width: 100%;
+            max-width: 200px;
+            padding: 15px;
+            border-radius: 15px;
+            background-color: rgba(254, 253, 253, 1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .book-image {
+            width: 100%;
+            /* Fit the container */
+            max-height: 250px;
+            /* Prevent it from becoming too tall */
+            object-fit: cover;
+            /* Crop the image to fill without distortion */
+            border-radius: 10px;
+            /* Rounded corners for nice aesthetics */
+            display: block;
+            /* Prevent inline image spacing issues */
+        }
+
+
+        .edit-btn,
+        .delete-btn {
+            margin: 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+            text-decoration: none;
+        }
+
+
+
+        .book-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .book-author {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .book-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .book-buttons button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .edit-btn {
+            display: inline-block;
+            background-color: #4a90e2;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background-color: #3c7fd4;
+        }
+
+
+        .edit-btn {
+            background-color: #4a90e2;
+            color: white;
+        }
+
+        /* .delete-btn {
+            background-color: #e24a4a;
+            color: white;
+        } */
+
+        .footer {
+            background-color: #4a90e2;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            .book-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 12px;
+            }
+
+            .book-image {
+                height: 180px;
+            }
+
+            .book-card {
+                max-width: 160px;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">LibrarySystem</div>
+        <nav>
+            <!-- <a href="/dashboard">Home</a> -->
+        </nav>
+    </header>
+
+    <!-- Book List Section -->
+    <section class="book-section">
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?= $_SESSION['success'] ?></div>
+            <?php unset($_SESSION['success']) ?>
+        <?php endif ?>
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-error"><?= $_SESSION['error'] ?></div>
+            <?php unset($_SESSION['error']) ?>
+        <?php endif ?>
+        <?php if (isset($_SESSION['warning'])): ?>
+            <div class="alert alert-warning"><?= $_SESSION['warning'] ?></div>
+            <?php unset($_SESSION['warning']) ?>
+        <?php endif ?>
+        <h2 style="text-align:center; margin-bottom: 30px;">📚 List of Books</h2>
+
+
+        <div class="search-container">
+            <form method="GET" action="/searchbooks" style="display: flex; gap: 8px; margin-bottom: 20px;">
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search by Title or Author"
+                    value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
+                    style="padding: 8px; border-radius: 15px; border: 1px solid #ccc; width: 300px;">
+
+                <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 15px; cursor: pointer;">
+                    🔍 Search
+                </button>
+            </form>
+
+        </div>
+        <?php
+        $books = $_SESSION['search_results'] ?? $this->book->fetchAllBooks();
+        unset($_SESSION['search_results']);
+        ?>
+
+
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <div class="top-buttons">
+                <a href="/addbook" class="addbook-btn">➕ Add Book</a>
+                <a href="/dashboard" class="back-btn">🔙 Back</a>
+            </div>
+        <?php endif ?>
+
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
+            <div class="top-buttons">
+                <a href="/dashboard" class="addbook-btn">📚 Dashboard</a>
+                <a href="/dashboard" class="back-btn">🔙 Back</a>
+            </div>
+        <?php endif ?>
+
+    </section>
+
+    <div class="book-grid">
+        <?php foreach ($books as $key => $book) : ?>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                <div class="book-card">
+                    <a href="/bookdetail?book_id=<?= $book['book_id'] ?>">
+                        <img src="<?= $book['image'] ?? 'profile-icon-design-free-vector.jpg' ?>" alt="Book Cover" class="book-image" />
+                    </a>
+                    <div class="book-title"><?= $book['title'] ?></div>
+                    <div class="book-author"><?= $book['author'] ?></div>
+                    <a href="/editbook?book_id=<?= $book['book_id'] ?>&author=<?= $book['author'] ?>&genre=<?= $book['genre'] ?>&copies=<?= $book['copies'] ?>&description=<?= $book['description'] ?>" class="edit-btn"> Edit </a>
+                    <a href="/deletebook?book_id=<?= $book['book_id'] ?>&user_id=<?= $_SESSION["user_id"] ?>" class="delete-btn">Delete</a>
+                </div>
+            <?php endif ?>
+        <?php endforeach ?>
+    </div>
+
+    <div class="book-grid">
+        <?php foreach ($books as $key => $book) : ?>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
+                <div class="book-card">
+                    <a href="/bookdetail?book_id=<?= $book['book_id'] ?>">
+                        <img src="<?= $book['image'] ?? 'profile-icon-design-free-vector.jpg' ?>" alt="Book Cover" class="book-image" />
+                    </a>
+                    <div class="book-title"><?= $book['title'] ?></div>
+                    <div class="book-author"><?= $book['author'] ?></div>
+                    <a href="/borrow?user_id=<?= $_SESSION["user_id"] ?>&book_id=<?= $book['book_id'] ?>" class="edit-btn">Borrow</a>
+                    <a href="/deleteBookBorrowDetails?book_id=<?= $book['book_id'] ?>&user_id=<?= $_SESSION["user_id"] ?>" class="delete-btn">Cancel</a></p>
+                </div>
+            <?php endif ?>
+        <?php endforeach ?>
+    </div>
+</body>
+<!-- Footer -->
+<footer class="footer">
+    &copy; 2025 Library Management System. All rights reserved.
+</footer>
 
 </html>

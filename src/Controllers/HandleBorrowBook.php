@@ -1,8 +1,11 @@
 <?php
 
+
 declare(strict_types=1);
 
+
 namespace App\Controllers;
+
 
 use App\Models\Book;
 use App\Models\Borrow;
@@ -42,6 +45,11 @@ class HandleBorrowBook
             $_SESSION['error'] = "Limit reached; return and cacel to borrow";
             $this->router->redirect("/dashboard");
         }
+        if ($bookEntry['fine'] > 0) {
+            $_SESSION['error'] = "Pay your fine of " . $bookEntry['fine'] . " " . "to borrow again";
+            $this->router->redirect('/booklist');
+            return;
+        }
         if (!$bookAvailability) {
             $_SESSION['error'] = "This book is not available";
             $this->router->redirect('/booklist');
@@ -50,16 +58,17 @@ class HandleBorrowBook
             $this->borrow->borrow($user_id, $book_id);
             $this->book->reduceAvailableCopies($book_id);
             $_SESSION['success'] = "Book borrowed successfully";
-        }
-        if ($bookEntry['return_date'] === null) {
-            $_SESSION['error'] = "You have borrowed this book.";
         } else {
-            $this->borrow->borrow($user_id, $book_id);
-            $this->book->reduceAvailableCopies($book_id);
-
-            $_SESSION['success'] = "Book borrowed successfully";
+            if ($bookEntry['return_date'] === null) {
+                $_SESSION['error'] = "You have borrowed this book.";
+                $this->router->redirect('/dashboard');
+            } else {
+                $this->borrow->borrow($user_id, $book_id);
+                $this->book->reduceAvailableCopies($book_id);
+                $_SESSION['success'] = "Book borrowed successfully";
+            }
         }
-
         $this->router->redirect('/dashboard');
     }
 }
+    

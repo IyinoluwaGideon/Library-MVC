@@ -19,11 +19,11 @@ class HandleDeleteBook
     public function action()
     {
 
-         $book_id = (int) $_GET['book_id'];
+        $book_id = (int) $_GET['book_id'];
         $bookEntry = $this->borrow->getBookEntryy($book_id);
         $this->book->deleteInventory();
         if (!$bookEntry) {
-            $this->book->deleteBook($book_id);   
+            $this->book->deleteBook($book_id);
             $_SESSION["success"] = "Book deleted successfully";
         } else {
             $_SESSION['error'] = "This Book still has a borrow history on a user's acc; it can't be deleted ";

@@ -52,10 +52,6 @@ class User
 
         $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-        // if (!$user) {
-        //     throw new \Exception("User not found");
-        // }
-
         return $user ?: null;
     }
 
